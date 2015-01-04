@@ -2,7 +2,7 @@
 # Author::  Joshua Timberman (<joshua@opscode.com>)
 # Author::  Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: php
-# Recipe:: default
+# Recipe:: module_apc
 #
 # Copyright 2009-2011, Opscode, Inc.
 #
@@ -19,15 +19,19 @@
 # limitations under the License.
 #
 
-include_recipe "php::#{node['php']['install_method']}"
-
-# update the main channels
-php_pear_channel 'pear.php.net' do
-  action :update
+case node['platform_family']
+when 'rhel', 'fedora'
+  %w{ httpd-devel pcre pcre-devel }.each do |pkg|
+    package pkg do
+      action :install
+    end
+  end
+  php_pear 'APC' do
+    action :install
+    directives(:shm_size => '128M', :enable_cli => 0)
+  end
+when 'debian'
+  package 'php-apc' do
+    action :install
+  end
 end
-
-php_pear_channel 'pecl.php.net' do
-  action :update
-end
-
-include_recipe "php::ini"
