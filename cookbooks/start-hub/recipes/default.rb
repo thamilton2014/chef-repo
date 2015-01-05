@@ -6,6 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+
 link = 'http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar'
 jarfile = 'selenium-server-standalone-2.44.0.jar'
 role = 'hub'
@@ -26,8 +27,9 @@ bash 'Download selenium server' do
   EOH
 end
 
-bash 'Install and start selenium hub server' do
+bash 'Start selenium server' do
   user 'root'
+  group 'root'
   cwd '/opt/selenium'
   code <<-EOH
     java -jar #{jarfile} -role #{role}
