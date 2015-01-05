@@ -32,6 +32,6 @@ bash 'Start selenium server' do
   group 'root'
   cwd '/opt/selenium'
   code <<-EOH
-    java -jar #{jarfile} -role #{role}
+    java -jar #{jarfile} -role #{role} &
   EOH
 end
