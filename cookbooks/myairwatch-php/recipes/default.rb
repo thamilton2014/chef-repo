@@ -18,17 +18,23 @@ directory install_dir do
   action :create
 end
 
+# do a check for curl
+bash 'Install curl' do
+  user 'root'
+  group 'root'
+  cwd install_dir
+  code <<-EOH
+    yum install curl -y
+  EOH
+end
+
+# do a check for php
 bash 'Install php' do
   user 'root'
   group 'root'
   cwd install_dir
   code <<-EOH
-    wget #{latest_php}
-    tar -zxf #{php_tar}
-    cd #{php_ver}
-    ./configure
-    make
-    make install
+    yum install php -y
   EOH
 end
 
@@ -65,6 +71,7 @@ end
 bash 'Install phpunit' do
   user 'root'
   group 'root'
+  cwd install_dir
   code <<-EOH
     chmod +x phpunit.phar
     sudo mv phpunit.phar /usr/local/bin/phpunit
