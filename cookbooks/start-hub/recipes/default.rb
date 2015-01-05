@@ -6,6 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+link = "http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar"
 
 directory '/opt/selenium' do
   owner 'root'
@@ -18,7 +19,7 @@ bash 'Download selenium server' do
   user 'root'
   cwd '/opt/selenium'
   code <<-EOH
-    echo "Download here"
+    wget #{link}
   EOH
 end
 
