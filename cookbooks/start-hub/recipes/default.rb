@@ -6,19 +6,24 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+version = '2.44'
+selenium = "selenium-server-standalone-#{version}.0.jar"
 
-link = 'http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar'
-jarfile = 'selenium-server-standalone-2.44.0.jar'
-server = 'http://10.44.72.123:4444/grid/register'
+selenium_dir = '/opt/selenium'
 
-directory '/opt/selenium' do
-  owner 'root'
-  group 'root'
-  mode '0755'
+directory selenium_dir do
   action :create
-  not_if { ::File.exists? '/opt/selenium' }
 end
 
-execute "wget #{link}"
+cookbook_file selenium do
+  path "#{selenium_dir}/#{selenium}"
+  action :create_if_missing
+end
 
-execute "java -jar #{jarfile} -role hub #{server} &"
+execute 'Execute selenium server' do
+  cwd selenium_dir
+  command "java -jar #{selenium} -role hub &"
+  not_if 'ps aux | grep "[s]elenium"'
+  action :run
+end
+
