@@ -7,16 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 
-if platform_family? 'windows'
-  batch 'Download selenium server' do
-    code 'echo "Download selenium server"'
-    action :run
-  end
-elsif platform_family? 'mac_os_x'
-  bash 'Download selenium server' do
-    execute 'echo "Download selenium server"'
-    action :run
-  end
+if platform_family? 'mac_os_x'
+  execute 'echo Download server'
 else
   print 'Platform not supported'
 end

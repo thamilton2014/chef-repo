@@ -9,29 +9,16 @@
 
 link = 'http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar'
 jarfile = 'selenium-server-standalone-2.44.0.jar'
-role = 'hub'
+server = 'http://10.44.72.123:4444/grid/register'
 
 directory '/opt/selenium' do
   owner 'root'
   group 'root'
   mode '0755'
   action :create
+  not_if { ::File.exists? '/opt/selenium' }
 end
 
-bash 'Download selenium server' do
-  user 'root'
-  group 'root'
-  cwd '/opt/selenium'
-  code <<-EOH
-    wget #{link}
-  EOH
-end
+execute "wget #{link}"
 
-bash 'Start selenium server' do
-  user 'root'
-  group 'root'
-  cwd '/opt/selenium'
-  code <<-EOH
-    java -jar #{jarfile} -role #{role} &
-  EOH
-end
+execute "java -jar #{jarfile} -role hub #{server} &"
