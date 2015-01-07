@@ -39,7 +39,7 @@ if platform_family? 'mac_os_x'
 
   execute 'Execute selenium server' do
     cwd selenium_dir
-    command "java -Dwebdriver.safari.driver=#{mac_safari_driver} -jar #{selenium} -role node -hub #{server} &"
+    command "java -Dwebdriver.chrome.driver=/usr/bin/chromedriver -Dwebdriver.safari.driver=#{mac_safari_driver} -jar #{selenium} -role node -hub #{server} &"
     not_if 'ps aux | grep "[s]elenium"'
     action :run
   end
