@@ -12,8 +12,8 @@ selenium = "selenium-server-standalone-#{version}.0.jar"
 
 server = 'http://10.44.73.64:4444/grid/register'
 
-mac_chrome_driver = 'chromedriver_mac'
-mac_safari_driver = '/Applications/Safar.app/Contents/MacOS/Safari'
+mac_chrome_driver = 'chromedriver'
+mac_safari_driver = '/Applications/Safari.app/Contents/MacOS/Safari'
 
 win_chrome_driver = 'chromedriver_win.exe'
 win_ie_driver = 'IEDriverServer.exe'
@@ -23,6 +23,7 @@ if platform_family? 'mac_os_x'
   selenium_dir = '/Users/administrator/selenium/'
 
   directory selenium_dir do
+    user 'administrator'
     action :create
   end
 
@@ -32,13 +33,13 @@ if platform_family? 'mac_os_x'
   end
 
   cookbook_file mac_chrome_driver do
-    path "#{selenium_dir}/#{mac_chrome_driver}"
+    path "/usr/bin/#{mac_chrome_driver}"
     action :create_if_missing
   end
 
   execute 'Execute selenium server' do
     cwd selenium_dir
-    command "java -Dwebdriver.chrome.driver=#{mac_chrome_driver} -Dwebdriver.safari.driver=#{mac_safari_driver} -jar #{selenium} -role node -hub #{server} &"
+    command "java -Dwebdriver.safari.driver=#{mac_safari_driver} -jar #{selenium} -role node -hub #{server} &"
     not_if 'ps aux | grep "[s]elenium"'
     action :run
   end
