@@ -1,5 +1,6 @@
 name 'webserver'
 description 'Web server role'
+
 all_env = [
     'role[base]',
     'recipe[php]',
