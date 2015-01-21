@@ -3,7 +3,7 @@ description 'test server role'
 
 all_env = [
     'role[base]',
-    'recipe[myairwatch-ssh-keys]'
+    'recipe[myairwatch-install-user]'
 ]
 
 run_list(all_env)

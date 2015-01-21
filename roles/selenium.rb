@@ -1,4 +1,4 @@
-name 'selenium_hub'
+name 'selenium'
 description 'This role applies selenium hub recipes to a server'
 
 hub_env = [

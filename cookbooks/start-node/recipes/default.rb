@@ -39,14 +39,14 @@ if platform_family? 'mac_os_x'
 
   execute 'Execute selenium server' do
     cwd selenium_dir
-    command "java -Dwebdriver.chrome.driver=/usr/bin/chromedriver -Dwebdriver.safari.driver=#{mac_safari_driver} -jar #{selenium} -role node -hub #{server} &"
+    command "java -Dwebdriver.chrome.driver=#{mac_chrome_driver} -jar #{selenium} -role node -hub #{server} &"
     not_if 'ps aux | grep "[s]elenium"'
     action :run
   end
 
 elsif platform_family? 'windows'
 
-  selenium_dir = "C:\\Users\\admin\\Desktop\\selenium\\"
+  selenium_dir = "C:\\Users\\Administrator\\Desktop\\selenium\\"
 
   directory selenium_dir do
     action :create
@@ -70,7 +70,6 @@ elsif platform_family? 'windows'
   execute 'Execute selenium server' do
     cwd selenium_dir
     command "java -Dwebdriver.chrome.driver=#{win_chrome_driver} -Dwebdriver.ie.driver=#{win_ie_driver}-jar #{selenium} -role node -hub #{server}"
-    not_if 'ps aux | grep "[s]elenium"'
     action :run
   end
 
